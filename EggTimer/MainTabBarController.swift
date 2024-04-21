@@ -17,7 +17,10 @@ final class MainTabBarController: UITabBarController {
     }
     
     func setupTab() {
-        UITabBar.appearance().barTintColor = UIColor.white
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = .white
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
         
         let timerViewController = TimerViewController()
         timerViewController.tabBarItem = UITabBarItem(title: "Timer", image: UIImage(systemName: "timer"), tag: 0)
@@ -26,7 +29,7 @@ final class MainTabBarController: UITabBarController {
         settingsViewController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), tag: 0)
         
         viewControllers = [timerViewController, settingsViewController]
-        
+    
     }
 
 }
