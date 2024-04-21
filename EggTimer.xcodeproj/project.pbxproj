@@ -9,21 +9,23 @@
 /* Begin PBXBuildFile section */
 		3977866F2BD4DFEF0066D5D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3977866E2BD4DFEF0066D5D9 /* AppDelegate.swift */; };
 		397786712BD4DFEF0066D5D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397786702BD4DFEF0066D5D9 /* SceneDelegate.swift */; };
-		397786732BD4DFEF0066D5D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397786722BD4DFEF0066D5D9 /* ViewController.swift */; };
-		397786762BD4DFEF0066D5D9 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 397786752BD4DFEF0066D5D9 /* Base */; };
+		397786732BD4DFEF0066D5D9 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397786722BD4DFEF0066D5D9 /* MainTabBarController.swift */; };
 		397786782BD4DFF00066D5D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397786772BD4DFF00066D5D9 /* Assets.xcassets */; };
 		3977867B2BD4DFF00066D5D9 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 3977867A2BD4DFF00066D5D9 /* Base */; };
+		397786832BD500270066D5D9 /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397786822BD500270066D5D9 /* TimerViewController.swift */; };
+		397786852BD5003B0066D5D9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397786842BD5003B0066D5D9 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3977866B2BD4DFEF0066D5D9 /* EggTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EggTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3977866E2BD4DFEF0066D5D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		397786702BD4DFEF0066D5D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		397786722BD4DFEF0066D5D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		397786752BD4DFEF0066D5D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		397786722BD4DFEF0066D5D9 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		397786772BD4DFF00066D5D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3977867A2BD4DFF00066D5D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3977867C2BD4DFF00066D5D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		397786822BD500270066D5D9 /* TimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
+		397786842BD5003B0066D5D9 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +60,9 @@
 			children = (
 				3977866E2BD4DFEF0066D5D9 /* AppDelegate.swift */,
 				397786702BD4DFEF0066D5D9 /* SceneDelegate.swift */,
-				397786722BD4DFEF0066D5D9 /* ViewController.swift */,
-				397786742BD4DFEF0066D5D9 /* Main.storyboard */,
+				397786722BD4DFEF0066D5D9 /* MainTabBarController.swift */,
+				397786822BD500270066D5D9 /* TimerViewController.swift */,
+				397786842BD5003B0066D5D9 /* SettingsViewController.swift */,
 				397786772BD4DFF00066D5D9 /* Assets.xcassets */,
 				397786792BD4DFF00066D5D9 /* LaunchScreen.storyboard */,
 				3977867C2BD4DFF00066D5D9 /* Info.plist */,
@@ -127,7 +130,6 @@
 			files = (
 				397786782BD4DFF00066D5D9 /* Assets.xcassets in Resources */,
 				3977867B2BD4DFF00066D5D9 /* Base in Resources */,
-				397786762BD4DFEF0066D5D9 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +140,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				397786732BD4DFEF0066D5D9 /* ViewController.swift in Sources */,
+				397786832BD500270066D5D9 /* TimerViewController.swift in Sources */,
+				397786732BD4DFEF0066D5D9 /* MainTabBarController.swift in Sources */,
 				3977866F2BD4DFEF0066D5D9 /* AppDelegate.swift in Sources */,
 				397786712BD4DFEF0066D5D9 /* SceneDelegate.swift in Sources */,
+				397786852BD5003B0066D5D9 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		397786742BD4DFEF0066D5D9 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				397786752BD4DFEF0066D5D9 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		397786792BD4DFF00066D5D9 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -297,9 +293,11 @@
 				INFOPLIST_FILE = EggTimer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -325,9 +323,11 @@
 				INFOPLIST_FILE = EggTimer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
