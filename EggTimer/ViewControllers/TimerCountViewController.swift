@@ -11,7 +11,6 @@ class TimerCountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "timerCount"
         view.backgroundColor = .yellow
     }
 }

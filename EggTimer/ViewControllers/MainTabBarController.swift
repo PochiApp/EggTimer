@@ -14,11 +14,13 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupTab()
+        
+        tabBar.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
     }
     
-    func setupTab() {
+    private func setupTab() {
         
-        let timerSetViewController = MainNavigationViewController(rootViewController: TimerSetViewController())
+        let timerSetViewController = TimerSetTabBarController()
         timerSetViewController.tabBarItem = UITabBarItem(title: "Timer", image: UIImage(systemName: "timer"), tag: 0)
         
         let settingsViewController = SettingsViewController()

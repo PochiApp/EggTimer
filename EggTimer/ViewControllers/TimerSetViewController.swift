@@ -11,7 +11,6 @@ class TimerSetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "timerSet"
         view.backgroundColor = .red
     }
 }
