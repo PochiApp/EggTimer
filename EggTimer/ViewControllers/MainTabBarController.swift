@@ -20,7 +20,7 @@ final class MainTabBarController: UITabBarController {
     
     private func setupTab() {
         
-        let timerSetViewController = TimerSetTabBarController()
+        let timerSetViewController = TimerSetTabPageViewController()
         timerSetViewController.tabBarItem = UITabBarItem(title: "Timer", image: UIImage(systemName: "timer"), tag: 0)
         
         let settingsViewController = SettingsViewController()
