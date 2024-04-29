@@ -17,8 +17,8 @@ final class SettingsViewController: UIViewController {
         return label
     }()
     
-    override func loadView() {
-        view = UIView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = .orange
         centerLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(centerLabel)
@@ -26,5 +26,6 @@ final class SettingsViewController: UIViewController {
             centerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             centerLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+        self.navigationItem.title = "a"
     }
 }

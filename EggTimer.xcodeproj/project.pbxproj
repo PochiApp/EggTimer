@@ -76,12 +76,20 @@
 			isa = PBXGroup;
 			children = (
 				397786722BD4DFEF0066D5D9 /* MainTabBarController.swift */,
-				397786822BD500270066D5D9 /* TimerSetTabPageViewController.swift */,
-				397786862BD688ED0066D5D9 /* TimerSetViewController.swift */,
-				397786882BD689B10066D5D9 /* TimerCountViewController.swift */,
+				3977868B2BDF93570066D5D9 /* TimerSet */,
 				397786842BD5003B0066D5D9 /* SettingsViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		3977868B2BDF93570066D5D9 /* TimerSet */ = {
+			isa = PBXGroup;
+			children = (
+				397786822BD500270066D5D9 /* TimerSetTabPageViewController.swift */,
+				397786862BD688ED0066D5D9 /* TimerSetViewController.swift */,
+				397786882BD689B10066D5D9 /* TimerCountViewController.swift */,
+			);
+			path = TimerSet;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

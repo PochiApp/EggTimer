@@ -15,12 +15,11 @@ final class MainTabBarController: UITabBarController {
         // Do any additional setup after loading the view.
         setupTab()
         
-        tabBar.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
     }
     
     private func setupTab() {
         
-        let timerSetViewController = TimerSetTabPageViewController()
+        let timerSetViewController = TimerSetTabPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         timerSetViewController.tabBarItem = UITabBarItem(title: "Timer", image: UIImage(systemName: "timer"), tag: 0)
         
         let settingsViewController = SettingsViewController()
