@@ -19,7 +19,7 @@ final class MainTabBarController: UITabBarController {
     
     private func setupTab() {
         
-        let timerSetViewController = TimerSetTabPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        let timerSetViewController = UINavigationController(rootViewController: TimerSetTabPageViewController.init())
         timerSetViewController.tabBarItem = UITabBarItem(title: "Timer", image: UIImage(systemName: "timer"), tag: 0)
         
         let settingsViewController = SettingsViewController()

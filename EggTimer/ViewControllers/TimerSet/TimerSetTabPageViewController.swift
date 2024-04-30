@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TimerSetTabPageViewController: UIPageViewController {
+final class TimerSetTabPageViewController: UIViewController {
     
     private var pageViewController: UIPageViewController!
     private var controllers: [UIViewController] = []
@@ -23,17 +23,22 @@ final class TimerSetTabPageViewController: UIPageViewController {
     }
     
     private func setPageViewController(){
+        let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        
         let timerSetViewController = TimerSetViewController()
         
         let timerCountViewController = TimerCountViewController()
-        timerCountViewController.view.backgroundColor = .yellow
         
         self.controllers = [timerSetViewController, timerCountViewController]
         
-        setViewControllers([self.controllers[0]], direction: .forward, animated: false, completion: nil)
+        pageViewController.setViewControllers([self.controllers[0]], direction: .forward, animated: false, completion: nil)
         
-        self.dataSource = self
-        self.delegate = self
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
+        
+        addChild(pageViewController)
+        self.view.addSubview(pageViewController.view)
+        pageViewController.didMove(toParent: self)
     }
     
     private func setSegmentController() {
@@ -51,11 +56,11 @@ final class TimerSetTabPageViewController: UIPageViewController {
     }
 }
     
-    extension TimerSetTabPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+    extension TimerSetTabPageViewController:  UIPageViewControllerDataSource,UIPageViewControllerDelegate {
         func pageViewController (_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
             if let index = self.controllers.firstIndex(of: viewController),
-               index < self.controllers.count - 1 {
-                return self.controllers[index + 1]
+                index > 0 {
+                return self.controllers[index - 1]
             } else {
                 return nil
             }
@@ -63,8 +68,8 @@ final class TimerSetTabPageViewController: UIPageViewController {
         
         func pageViewController (_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
             if let index = self.controllers.firstIndex(of: viewController),
-               index > 0 {
-                return self.controllers[index - 1]
+               index < self.controllers.count - 1 {
+                return self.controllers[index + 1]
             } else {
                 return nil
             }
