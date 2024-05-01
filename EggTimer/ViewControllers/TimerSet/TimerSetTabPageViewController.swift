@@ -24,7 +24,7 @@ final class TimerSetTabPageViewController: UIViewController {
     }
     
     private func setPageViewController(){
-        let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         
         let timerSetViewController = TimerSetViewController()
         
@@ -54,16 +54,13 @@ final class TimerSetTabPageViewController: UIViewController {
     
     @objc func timerSetViewMoved(segcon: UISegmentedControl) {
         
-        let index = segcon.selectedSegmentIndex
-        
-        switch index {
-            
+        switch segcon.selectedSegmentIndex {
         case 0:
-            pageViewController.setViewControllers([controllers[index]], direction: .reverse, animated: true)
+            pageViewController.setViewControllers([self.controllers[segcon.selectedSegmentIndex]], direction: .reverse, animated: true)
         case 1:
-            pageViewController.setViewControllers([controllers[index]], direction: .forward, animated: true)
+            pageViewController.setViewControllers([self.controllers[segcon.selectedSegmentIndex]], direction: .forward, animated: true)
         default:
-            break
+            print("default")
             
         }
     }
