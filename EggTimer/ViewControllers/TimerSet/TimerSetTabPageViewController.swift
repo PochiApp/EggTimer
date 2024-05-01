@@ -11,6 +11,7 @@ final class TimerSetTabPageViewController: UIViewController {
     
     private var pageViewController: UIPageViewController!
     private var controllers: [UIViewController] = []
+    private var segmentedController: UISegmentedControl!
     private var segmentTextContent: [String] = ["タイマー設定", "デフォルト"]
     
     override func viewDidLoad() {
@@ -42,7 +43,7 @@ final class TimerSetTabPageViewController: UIViewController {
     }
     
     private func setSegmentController() {
-        let segmentedController = UISegmentedControl(items: segmentTextContent)
+        segmentedController = UISegmentedControl(items: segmentTextContent)
         segmentedController.selectedSegmentIndex = 0
         segmentedController.autoresizingMask = .flexibleWidth
         segmentedController.frame = CGRect(x: 0, y: 0, width: 400, height: 30)
@@ -51,8 +52,20 @@ final class TimerSetTabPageViewController: UIViewController {
         
     }
     
-    @objc func timerSetViewMoved() {
+    @objc func timerSetViewMoved(segcon: UISegmentedControl) {
         
+        let index = segcon.selectedSegmentIndex
+        
+        switch index {
+            
+        case 0:
+            pageViewController.setViewControllers([controllers[index]], direction: .reverse, animated: true)
+        case 1:
+            pageViewController.setViewControllers([controllers[index]], direction: .forward, animated: true)
+        default:
+            break
+            
+        }
     }
 }
     
@@ -72,6 +85,16 @@ final class TimerSetTabPageViewController: UIViewController {
                 return self.controllers[index + 1]
             } else {
                 return nil
+            }
+        }
+        
+        func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+            if finished && completed {
+                if let currentViewController = pageViewController.viewControllers?.first {
+                    if let index = controllers.firstIndex(of: currentViewController) {
+                        segmentedController.selectedSegmentIndex = index
+                    }
+                }
             }
         }
         
