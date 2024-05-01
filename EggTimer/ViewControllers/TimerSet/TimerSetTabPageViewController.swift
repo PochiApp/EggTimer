@@ -11,7 +11,7 @@ final class TimerSetTabPageViewController: UIViewController {
     
     private var pageViewController: UIPageViewController!
     private var controllers: [UIViewController] = []
-    private var segmentedController: UISegmentedControl!
+    private var segmentedControl: UISegmentedControl!
     private var segmentTextContent: [String] = ["タイマー設定", "デフォルト"]
     
     override func viewDidLoad() {
@@ -20,7 +20,10 @@ final class TimerSetTabPageViewController: UIViewController {
         
         setPageViewController()
         
-        setSegmentController()
+        setSegmentControl()
+        
+        self.navigationController?.navigationBar.isTranslucent = true
+        edgesForExtendedLayout = .bottom
     }
     
     private func setPageViewController(){
@@ -42,13 +45,13 @@ final class TimerSetTabPageViewController: UIViewController {
         pageViewController.didMove(toParent: self)
     }
     
-    private func setSegmentController() {
-        segmentedController = UISegmentedControl(items: segmentTextContent)
-        segmentedController.selectedSegmentIndex = 0
-        segmentedController.autoresizingMask = .flexibleWidth
-        segmentedController.frame = CGRect(x: 0, y: 0, width: 400, height: 30)
-        segmentedController.addTarget(self, action: #selector(timerSetViewMoved), for: .valueChanged)
-        self.navigationItem.titleView = segmentedController
+    private func setSegmentControl() {
+        segmentedControl = UISegmentedControl(items: segmentTextContent)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.autoresizingMask = .flexibleWidth
+        segmentedControl.frame = CGRect(x: 0, y: 0, width: 400, height: 30)
+        segmentedControl.addTarget(self, action: #selector(timerSetViewMoved), for: .valueChanged)
+        self.navigationItem.titleView = segmentedControl
         
     }
     
@@ -56,9 +59,9 @@ final class TimerSetTabPageViewController: UIViewController {
         
         switch segcon.selectedSegmentIndex {
         case 0:
-            pageViewController.setViewControllers([self.controllers[segcon.selectedSegmentIndex]], direction: .reverse, animated: true)
+            pageViewController.setViewControllers([self.controllers[segcon.selectedSegmentIndex]], direction: .reverse, animated: false)
         case 1:
-            pageViewController.setViewControllers([self.controllers[segcon.selectedSegmentIndex]], direction: .forward, animated: true)
+            pageViewController.setViewControllers([self.controllers[segcon.selectedSegmentIndex]], direction: .forward, animated: false)
         default:
             print("default")
             
@@ -86,10 +89,10 @@ final class TimerSetTabPageViewController: UIViewController {
         }
         
         func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-            if finished && completed {
+            if completed {
                 if let currentViewController = pageViewController.viewControllers?.first {
                     if let index = controllers.firstIndex(of: currentViewController) {
-                        segmentedController.selectedSegmentIndex = index
+                        segmentedControl.selectedSegmentIndex = index
                     }
                 }
             }
