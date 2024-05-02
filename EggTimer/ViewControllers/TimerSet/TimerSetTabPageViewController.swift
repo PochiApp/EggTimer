@@ -22,12 +22,15 @@ final class TimerSetTabPageViewController: UIViewController {
         
         setSegmentControl()
         
-        self.navigationController?.navigationBar.isTranslucent = true
-        edgesForExtendedLayout = .bottom
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.tabBarController?.tabBar.isTranslucent = false
+        extendedLayoutIncludesOpaqueBars = false
+
     }
     
     private func setPageViewController(){
         pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         let timerSetViewController = TimerSetViewController()
         
@@ -43,6 +46,7 @@ final class TimerSetTabPageViewController: UIViewController {
         addChild(pageViewController)
         self.view.addSubview(pageViewController.view)
         pageViewController.didMove(toParent: self)
+        
     }
     
     private func setSegmentControl() {
