@@ -21,13 +21,15 @@ class TimerSetViewController: UIViewController {
         view.backgroundColor = .white
         
         setUpEggImageStackView()
+        
+        setUpBoiledDegreeStackView()
     }
     
     private func setUpEggImageStackView() {
         eggImageStackView = UIStackView()
-        eggImageStackView.backgroundColor = .blue
+        eggImageStackView.backgroundColor = .white
         eggImageStackView.axis = .horizontal
-        eggImageStackView.distribution = .fillEqually
+        eggImageStackView.distribution = .fill
         eggImageStackView.alignment = .center
         eggImageStackView.spacing = 15
         
@@ -52,8 +54,47 @@ class TimerSetViewController: UIViewController {
             eggImageStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant:0),
             eggImageStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             eggImageStackView.widthAnchor.constraint(equalToConstant: 350),
-            eggImageStackView.heightAnchor.constraint(equalToConstant: 300),
+            eggImageStackView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
+    private func setUpBoiledDegreeStackView() {
+        boiledDegreeStackView = UIStackView()
+        boiledDegreeStackView.backgroundColor = .white
+        boiledDegreeStackView.axis = .vertical
+        boiledDegreeStackView.distribution = .fill
+        boiledDegreeStackView.alignment = .top
+        boiledDegreeStackView.spacing = 5
+        
+        let boiledDegreeLabel: UILabel = {
+            let label = UILabel()
+            label.backgroundColor = .white
+            label.text = "半熟度合"
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+        
+        let degreeName = ["温泉卵", "半半熟", "半熟", "半熟より固め", "固め"]
+        
+        let boiledDegreeSegmentedControl = UISegmentedControl(items: degreeName)
+        boiledDegreeSegmentedControl.selectedSegmentIndex = 3
+        boiledDegreeSegmentedControl.backgroundColor = .white
+        boiledDegreeSegmentedControl.selectedSegmentTintColor = .orange
+        boiledDegreeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        boiledDegreeStackView.addArrangedSubview(boiledDegreeLabel)
+        boiledDegreeStackView.addArrangedSubview(boiledDegreeSegmentedControl)
+        self.view.addSubview(boiledDegreeStackView)
+        
+        boiledDegreeStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            boiledDegreeSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
             
-                ])
+            boiledDegreeStackView.topAnchor.constraint(equalTo: eggImageStackView.bottomAnchor, constant:0),
+            boiledDegreeStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            boiledDegreeStackView.widthAnchor.constraint(equalToConstant: 350),
+            boiledDegreeStackView.heightAnchor.constraint(equalToConstant: 55)
+        ])
     }
 }
