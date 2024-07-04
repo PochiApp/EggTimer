@@ -57,7 +57,6 @@ final class TimerSetTabPageViewController: UIViewController {
         segmentedControl.selectedSegmentTintColor = .orange
         segmentedControl.addTarget(self, action: #selector(timerSetViewMoved), for: .valueChanged)
         self.navigationItem.titleView = segmentedControl
-        
     }
     
     @objc func timerSetViewMoved(segcon: UISegmentedControl) {

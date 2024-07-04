@@ -22,7 +22,11 @@ class TimerSetViewController: UIViewController {
         
         setUpEggImageStackView()
         
-        setUpBoiledDegreeStackView()
+//        setUpBoiledDegreeStackView()
+        
+        setUpTimmerSettingStackView(labelText: "半熟度合い", SegconSelectName: ["温泉卵", "半半熟", "半熟", "半熟より固め", "固め"], selectedSegmentIndex: 0)
+        
+        setUpTimmerSettingStackView(labelText: "卵の大きさ", SegconSelectName: ["S","M","L","XL"], selectedSegmentIndex: 0)
     }
     
     private func setUpEggImageStackView() {
@@ -77,7 +81,7 @@ class TimerSetViewController: UIViewController {
         let degreeName = ["温泉卵", "半半熟", "半熟", "半熟より固め", "固め"]
         
         let boiledDegreeSegmentedControl = UISegmentedControl(items: degreeName)
-        boiledDegreeSegmentedControl.selectedSegmentIndex = 3
+        boiledDegreeSegmentedControl.selectedSegmentIndex = 2
         boiledDegreeSegmentedControl.backgroundColor = .white
         boiledDegreeSegmentedControl.selectedSegmentTintColor = .orange
         boiledDegreeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -96,5 +100,50 @@ class TimerSetViewController: UIViewController {
             boiledDegreeStackView.widthAnchor.constraint(equalToConstant: 350),
             boiledDegreeStackView.heightAnchor.constraint(equalToConstant: 55)
         ])
+    }
+    
+    private func setUpTimmerSettingStackView(labelText: String, SegconSelectName: [String], selectedSegmentIndex: Int) {
+        boiledDegreeStackView = UIStackView()
+        boiledDegreeStackView.backgroundColor = .white
+        boiledDegreeStackView.axis = .vertical
+        boiledDegreeStackView.distribution = .fill
+        boiledDegreeStackView.alignment = .top
+        boiledDegreeStackView.spacing = 5
+        
+        let boiledDegreeLabel: UILabel = {
+            let label = UILabel()
+            label.backgroundColor = .white
+            label.text = labelText
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+        
+        let boiledDegreeSegmentedControl = UISegmentedControl(items: SegconSelectName)
+        boiledDegreeSegmentedControl.selectedSegmentIndex = selectedSegmentIndex
+        boiledDegreeSegmentedControl.backgroundColor = .white
+        boiledDegreeSegmentedControl.selectedSegmentTintColor = .orange
+        boiledDegreeSegmentedControl.autoresizingMask = .flexibleWidth
+        boiledDegreeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        boiledDegreeStackView.addArrangedSubview(boiledDegreeLabel)
+        boiledDegreeStackView.addArrangedSubview(boiledDegreeSegmentedControl)
+        let existingSubviews = self.view.subviews
+        
+        self.view.addSubview(boiledDegreeStackView)
+        
+        boiledDegreeStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            boiledDegreeSegmentedControl.heightAnchor.constraint(equalToConstant: 40),
+            boiledDegreeSegmentedControl.widthAnchor.constraint(equalToConstant: 350),
+            
+            boiledDegreeStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            boiledDegreeStackView.widthAnchor.constraint(equalToConstant: 350),
+            boiledDegreeStackView.heightAnchor.constraint(equalToConstant: 70)
+        ])
+        
+        if let lastSubview = existingSubviews.last {
+            NSLayoutConstraint.activate([boiledDegreeStackView.topAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant:20)])
+        }
     }
 }
