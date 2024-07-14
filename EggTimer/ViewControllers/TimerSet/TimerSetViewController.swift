@@ -10,7 +10,10 @@ import UIKit
 class TimerSetViewController: UIViewController {
     
     private var eggImageView: UIImageView!
-    private var boiledDegreeLabel: UILabel!
+    private var boiledDegreeLabel = UILabel()
+    private var countDownLabel = UILabel()
+    private var countdownEggTimer: Timer!
+    private var time: TimeInterval = 7 * 60 + 40
     private var eggImageStackView: UIStackView!
     private var boiledDegreeSegmentedControl: UISegmentedControl!
     private var eggSizeSegmentedControl: UISegmentedControl!
@@ -24,9 +27,9 @@ class TimerSetViewController: UIViewController {
         
         setUpEggImageStackView()
         
-        setUpTimmerSettingStackView(labelText: "半熟度合い", SegconSelectName: ["温泉卵", "とろとろ", "半熟", "固め"], selectedSegmentIndex: 0)
+        setUpTimmerSettingStackView(labelText: "半熟度合い", SegconSelectName: ["とろとろ", "半熟", "固め"], selectedSegmentIndex: 0)
         
-        setUpTimmerSettingStackView(labelText: "卵の大きさ", SegconSelectName: ["S","M","L","XL"], selectedSegmentIndex: 0)
+        setUpTimmerSettingStackView(labelText: "卵の大きさ", SegconSelectName: ["S","M","L"], selectedSegmentIndex: 0)
         
         setUpTimmerSettingStackView(labelText: "卵の温度", SegconSelectName: ["常温に戻している", "冷蔵庫から出してすぐ"], selectedSegmentIndex: 0)
         
@@ -37,19 +40,24 @@ class TimerSetViewController: UIViewController {
         eggImageStackView = UIStackView()
         eggImageStackView.backgroundColor = .white
         eggImageStackView.axis = .vertical
-        eggImageStackView.distribution = .fill
+        eggImageStackView.distribution = .equalSpacing
         eggImageStackView.alignment = .center
         eggImageStackView.spacing = 15
         
-        eggImageView = UIImageView(image: UIImage(named: "onsenEgg"))
+        eggImageView = UIImageView(image: UIImage(named: "torotoroEgg"))
         eggImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        boiledDegreeLabel = UILabel()
-        boiledDegreeLabel.text = "温泉卵"
+
+        boiledDegreeLabel.text = "とろとろ"
         boiledDegreeLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        countDownLabel.text = "00:00"
+        countDownLabel.font = UIFont.systemFont(ofSize: 50)
+        countDownLabel.translatesAutoresizingMaskIntoConstraints = false
         
         eggImageStackView.addArrangedSubview(eggImageView)
         eggImageStackView.addArrangedSubview(boiledDegreeLabel)
+        eggImageStackView.addArrangedSubview(countDownLabel)
+        
         self.view.addSubview(eggImageStackView)
         
         eggImageStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,10 +66,11 @@ class TimerSetViewController: UIViewController {
             eggImageStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant:0),
             eggImageStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             eggImageStackView.widthAnchor.constraint(equalToConstant: 350),
-            eggImageStackView.heightAnchor.constraint(equalToConstant: 200)
+            eggImageStackView.heightAnchor.constraint(equalToConstant: 280)
         ])
     }
     
+    //Label+SegmentedControlのStackViewを生成
     private func setUpTimmerSettingStackView(labelText: String, SegconSelectName: [String], selectedSegmentIndex: Int) {
         boiledDegreeStackView = UIStackView()
         boiledDegreeStackView.backgroundColor = .white
@@ -78,6 +87,7 @@ class TimerSetViewController: UIViewController {
             return label
         }()
         
+        //labelTextごとにインスタンス化するSegmentedControlを分別
         switch labelText {
         case "半熟度合い":
             boiledDegreeSegmentedControl = UISegmentedControl(items: SegconSelectName)
@@ -140,6 +150,7 @@ class TimerSetViewController: UIViewController {
             break
         }
         
+        //boiledDegreeStackViewをSubviewとして追加する前に、現時点でのsubViewsの配列をexistingSubviewsとしておく
         let existingSubviews = self.view.subviews
                                                  
         self.view.addSubview(boiledDegreeStackView)
@@ -152,26 +163,25 @@ class TimerSetViewController: UIViewController {
             boiledDegreeStackView.heightAnchor.constraint(equalToConstant: 70)
         ])
         
+        //existingSubviewsの配列最後のViewの下20ptにboiledDegreeStackViewを配置していく
         if let lastSubview = existingSubviews.last {
-            NSLayoutConstraint.activate([boiledDegreeStackView.topAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant:20)])
+            NSLayoutConstraint.activate([boiledDegreeStackView.topAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant:10)])
             
         }
     }
     
+    //選択した半熟度合いに応じて、卵のimageと半熟度合いを示すtextの変更
     @objc func labelAndImageChanged(_ segcon: UISegmentedControl) {
         boiledDegreeLabel.text = segcon.titleForSegment(at: segcon.selectedSegmentIndex)
         
         switch segcon.selectedSegmentIndex {
         case 0:
-            eggImageView.image = UIImage(named: "onsenEgg")
-        
-        case 1:
             eggImageView.image = UIImage(named: "torotoroEgg")
             
-        case 2:
+        case 1:
             eggImageView.image = UIImage(named: "softboiledEgg")
             
-        case 3:
+        case 2:
             eggImageView.image = UIImage(named: "katayudeEgg")
             
         default:
@@ -180,12 +190,87 @@ class TimerSetViewController: UIViewController {
     }
     
     @objc func timerChanged(_ segcon: UISegmentedControl) {
-        let selectedSegmentTitles = (boiledDegreeSegmentedControl.selectedSegmentIndex, eggSizeSegmentedControl.selectedSegmentIndex, eggTemperatureSegmentedControl.selectedSegmentIndex, timeToAddEggSegmentedControl.selectedSegmentIndex)
+        let selectedBoiledDegree = boiledDegreeSegmentedControl.selectedSegmentIndex
+        let selectedEggSize = eggSizeSegmentedControl.selectedSegmentIndex
+        let selectedEggTemperature = eggTemperatureSegmentedControl.selectedSegmentIndex
+        let selectedTimeToAddEgg = timeToAddEggSegmentedControl.selectedSegmentIndex
+        let selectedSegmentTitles = (selectedBoiledDegree, selectedEggSize)
         
-        switch selectedSegmentTitles {
-        case (0, 0, 0, 0):
+        if selectedTimeToAddEgg == 0 {
+            switch selectedSegmentTitles {
+            case (0, 0):
+                time = 7 * 60 + 40
             
+            case (1, 0):
+                time = 9 * 60 + 40
+                
+            case (2, 0):
+                time = 12 * 60 + 40
+            
+            case (0, 1):
+                time = 8 * 60
+            
+            case (0, 2):
+                time = 8 * 60 + 20
+                
+            case (1, 1):
+                time = 10 * 60
+                
+            case (1, 2):
+                time = 10 * 60 + 20
+                
+            case(2, 1):
+                time = 13 * 60
+                
+            case(2, 2):
+                time = 13 * 60 + 20
+                
+            default:
+                break
+            }
+        } else {
+            switch selectedSegmentTitles {
+            case (0, 0):
+                time = 5 * 60 + 10
+            
+            case (1, 0):
+                time = 7 * 60 + 10
+                
+            case (2, 0):
+                time = 8 * 60 + 40
+            
+            case (0, 1):
+                time = 5 * 60 + 30
+            
+            case (0, 2):
+                time = 5 * 60 + 50
+                
+            case (1, 1):
+                time = 7 * 60 + 30
+                
+            case (1, 2):
+                time = 7 * 60 + 50
+                
+            case(2, 1):
+                time = 9 * 60
+                
+            case(2, 2):
+                time = 9 * 60 + 20
+                
+            default:
+                break
+            }
         }
+        
+        if selectedEggTemperature == 1 {
+            time += 60
+        }
+        
+        let timerFormatter = DateComponentsFormatter()
+        timerFormatter.unitsStyle = .positional
+        timerFormatter.allowedUnits = [.minute, .second]
+        timerFormatter.zeroFormattingBehavior = .pad
+        countDownLabel.text = timerFormatter.string(from: time)
     }
     
 }
