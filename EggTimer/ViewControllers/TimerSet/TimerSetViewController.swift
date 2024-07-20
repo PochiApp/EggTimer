@@ -12,14 +12,20 @@ class TimerSetViewController: UIViewController {
     private var eggImageView: UIImageView!
     private var boiledDegreeLabel = UILabel()
     private var countDownLabel = UILabel()
-    private var countdownEggTimer: Timer!
-    private var time: TimeInterval = 7 * 60 + 40
+    private var time: TimeInterval = 3
     private var eggImageStackView: UIStackView!
     private var boiledDegreeSegmentedControl: UISegmentedControl!
     private var eggSizeSegmentedControl: UISegmentedControl!
     private var eggTemperatureSegmentedControl: UISegmentedControl!
     private var timeToAddEggSegmentedControl: UISegmentedControl!
     private var boiledDegreeStackView: UIStackView!
+    let timerFormatter = {
+        var timerFormatter = DateComponentsFormatter()
+        timerFormatter.unitsStyle = .positional
+        timerFormatter.allowedUnits = [.minute, .second]
+        timerFormatter.zeroFormattingBehavior = .pad
+        return timerFormatter
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +40,8 @@ class TimerSetViewController: UIViewController {
         setUpTimmerSettingStackView(labelText: "卵の温度", SegconSelectName: ["常温に戻している", "冷蔵庫から出してすぐ"], selectedSegmentIndex: 0)
         
         setUpTimmerSettingStackView(labelText: "卵を入れるタイミング", SegconSelectName: ["水から", "お湯から"], selectedSegmentIndex: 0)
+        
+        setUpStartTimerButton()
     }
     
     private func setUpEggImageStackView() {
@@ -50,7 +58,7 @@ class TimerSetViewController: UIViewController {
         boiledDegreeLabel.text = "とろとろ"
         boiledDegreeLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        countDownLabel.text = "00:00"
+        countDownLabel.text = timerFormatter().string(from: time)
         countDownLabel.font = UIFont.systemFont(ofSize: 50)
         countDownLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -166,7 +174,29 @@ class TimerSetViewController: UIViewController {
         //existingSubviewsの配列最後のViewの下20ptにboiledDegreeStackViewを配置していく
         if let lastSubview = existingSubviews.last {
             NSLayoutConstraint.activate([boiledDegreeStackView.topAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant:10)])
-            
+        }
+    }
+    
+    //タイマー開始ボタンの作成
+    private func setUpStartTimerButton() {
+        var configuration = UIButton.Configuration.tinted()
+        configuration.title = "タイマースタート"
+        configuration.baseForegroundColor = .black
+        configuration.image = UIImage(systemName: "timer")
+        configuration.imagePlacement = .leading
+        configuration.background.backgroundColor = .orange
+        let startTimerButton = UIButton(configuration: configuration)
+        
+        let existingSubviews = self.view.subviews
+        
+        self.view.addSubview(startTimerButton)
+        startTimerButton.translatesAutoresizingMaskIntoConstraints = false
+        startTimerButton.addTarget(self, action: #selector(timerCountDown), for: .touchUpInside)
+        
+        if let lastSubview = existingSubviews.last {
+            NSLayoutConstraint.activate([
+                startTimerButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                startTimerButton.topAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant:20)])
         }
     }
     
@@ -189,6 +219,7 @@ class TimerSetViewController: UIViewController {
         }
     }
     
+    //選択した各セグメントに応じて、タイマー表示を分岐
     @objc func timerChanged(_ segcon: UISegmentedControl) {
         let selectedBoiledDegree = boiledDegreeSegmentedControl.selectedSegmentIndex
         let selectedEggSize = eggSizeSegmentedControl.selectedSegmentIndex
@@ -262,15 +293,24 @@ class TimerSetViewController: UIViewController {
             }
         }
         
+        //冷蔵庫から出してすぐの卵の場合、秒数+60
         if selectedEggTemperature == 1 {
             time += 60
         }
         
-        let timerFormatter = DateComponentsFormatter()
-        timerFormatter.unitsStyle = .positional
-        timerFormatter.allowedUnits = [.minute, .second]
-        timerFormatter.zeroFormattingBehavior = .pad
-        countDownLabel.text = timerFormatter.string(from: time)
+        //timeをString変換
+        countDownLabel.text = timerFormatter().string(from: time)
     }
     
+    @objc func timerCountDown() {
+        let countDownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true){ timer in
+            self.time -= 1
+            self.countDownLabel.text = self.timerFormatter().string(from: self.time)
+            
+            if self.time == 0 {
+                timer.invalidate()
+            }
+        }
+        RunLoop.current.add(countDownTimer, forMode: .common)
+    }
 }
