@@ -26,6 +26,7 @@ class TimerSetViewController: UIViewController {
         timerFormatter.zeroFormattingBehavior = .pad
         return timerFormatter
     }
+    private var runningTimerVC: UIViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +49,9 @@ class TimerSetViewController: UIViewController {
         eggImageStackView = UIStackView()
         eggImageStackView.backgroundColor = .white
         eggImageStackView.axis = .vertical
-        eggImageStackView.distribution = .equalSpacing
+        eggImageStackView.distribution = .fill
         eggImageStackView.alignment = .center
-        eggImageStackView.spacing = 15
+        eggImageStackView.spacing = 0
         
         eggImageView = UIImageView(image: UIImage(named: "torotoroEgg"))
         eggImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,9 +63,9 @@ class TimerSetViewController: UIViewController {
         countDownLabel.font = UIFont.systemFont(ofSize: 50)
         countDownLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        eggImageStackView.addArrangedSubview(countDownLabel)
         eggImageStackView.addArrangedSubview(eggImageView)
         eggImageStackView.addArrangedSubview(boiledDegreeLabel)
-        eggImageStackView.addArrangedSubview(countDownLabel)
         
         self.view.addSubview(eggImageStackView)
         
@@ -312,5 +313,17 @@ class TimerSetViewController: UIViewController {
             }
         }
         RunLoop.current.add(countDownTimer, forMode: .common)
+        
+        runningTimerVC = runningTimerViewController()
+        addChild(runningTimerVC)
+        self.view.addSubview(runningTimerVC.view)
+        runningTimerVC.didMove(toParent: self)
+        runningTimerVC.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            runningTimerVC.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0),
+            runningTimerVC.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
+            runningTimerVC.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0),
+            runningTimerVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0)])
     }
 }

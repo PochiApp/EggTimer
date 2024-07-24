@@ -68,7 +68,6 @@ final class TimerSetTabPageViewController: UIViewController {
             pageViewController.setViewControllers([self.controllers[segcon.selectedSegmentIndex]], direction: .forward, animated: false)
         default:
             print("default")
-            
         }
     }
 }
