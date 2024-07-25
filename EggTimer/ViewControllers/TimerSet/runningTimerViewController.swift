@@ -13,7 +13,7 @@ class runningTimerViewController: UIViewController {
         super.viewDidLoad()
         
         let boilingEggsView = UIView()
-        boilingEggsView.backgroundColor = .blue/*.withAlphaComponent(0.9)*/
+        boilingEggsView.backgroundColor = UIColor(red: 113/255, green: 135/255, blue: 235/255, alpha: 1.0)
         boilingEggsView.layer.cornerRadius = 18
         boilingEggsView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -23,6 +23,7 @@ class runningTimerViewController: UIViewController {
             boilingEggsView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
             boilingEggsView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             boilingEggsView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            boilingEggsView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -10)])
-            }
+            boilingEggsView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -10)
+        ])
+    }
 }

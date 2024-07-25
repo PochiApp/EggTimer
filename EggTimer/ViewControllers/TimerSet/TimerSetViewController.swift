@@ -324,6 +324,12 @@ class TimerSetViewController: UIViewController {
             runningTimerVC.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0),
             runningTimerVC.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
             runningTimerVC.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0),
-            runningTimerVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0)])
+            runningTimerVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0)
+        ])
+        
+        runningTimerVC.view.alpha = 0.0
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseOut], animations: {
+            self.runningTimerVC.view.alpha = 1.0
+        })
     }
 }
