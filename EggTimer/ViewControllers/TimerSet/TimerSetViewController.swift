@@ -26,7 +26,7 @@ class TimerSetViewController: UIViewController {
         timerFormatter.zeroFormattingBehavior = .pad
         return timerFormatter
     }
-    private var runningTimerVC: UIViewController!
+    private var runningTimerVC: RunningTimerViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +45,7 @@ class TimerSetViewController: UIViewController {
         setUpStartTimerButton()
     }
     
+    //タイマー表示と半熟度合いに関する画像の表示
     private func setUpEggImageStackView() {
         eggImageStackView = UIStackView()
         eggImageStackView.backgroundColor = .white
@@ -303,6 +304,7 @@ class TimerSetViewController: UIViewController {
         countDownLabel.text = timerFormatter().string(from: time)
     }
     
+    //タイマーカウントダウンを開始したら始まるメソッド
     @objc func timerCountDown() {
         let countDownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true){ timer in
             self.time -= 1
@@ -312,10 +314,12 @@ class TimerSetViewController: UIViewController {
                 timer.invalidate()
             }
         }
+        //commonモードとしてRunLoopに設定することで操作系のイベントとは別で処理
         RunLoop.current.add(countDownTimer, forMode: .common)
         
-        runningTimerVC = runningTimerViewController()
-        addChild(runningTimerVC)
+        //タイマー開始ボタンタップ後に表示するViewの生成と表示アニメーション
+        runningTimerVC = RunningTimerViewController()
+        self.addChild(runningTimerVC)
         self.view.addSubview(runningTimerVC.view)
         runningTimerVC.didMove(toParent: self)
         runningTimerVC.view.translatesAutoresizingMaskIntoConstraints = false
@@ -327,9 +331,14 @@ class TimerSetViewController: UIViewController {
             runningTimerVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0)
         ])
         
+        //透過度0から0.3秒かけてViewを表示
         runningTimerVC.view.alpha = 0.0
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseOut], animations: {
-            self.runningTimerVC.view.alpha = 1.0
-        })
+        UIView.animate(withDuration: 0.3, 
+                       delay: 0.0,
+                       options: [.curveEaseOut],
+                       animations: {self.runningTimerVC.view.alpha = 1.0}
+        )
+        
+        runningTimerVC.startBoilingEggAnimation()
     }
 }
